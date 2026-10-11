@@ -1,3 +1,4 @@
+
 from datetime import date
 
 import pytest
@@ -20,12 +21,17 @@ def test_calculate_bmi_rejects_invalid_height():
 
 
 def test_membership_status_active():
-    assert membership_status(date(2026, 12, 31), date(2026, 10, 11)) == "Active"
+    expiry = date(2026, 12, 31)
+    today = date(2026, 10, 11)
+    assert membership_status(expiry, today) == "Active"
 
 
 def test_membership_status_expired():
-    assert membership_status(date(2026, 10, 10), date(2026, 10, 11)) == "Expired"
+    expiry = date(2026, 10, 10)
+    today = date(2026, 10, 11)
+    assert membership_status(expiry, today) == "Expired"
 
 
 def test_membership_expiring_today_is_active():
-    assert membership_status(date(2026, 10, 11), date(2026, 10, 11)) == "Active"
+    today = date(2026, 10, 11)
+    assert membership_status(today, today) == "Active"
