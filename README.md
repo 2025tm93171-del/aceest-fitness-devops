@@ -1,45 +1,45 @@
 # ACEest Fitness & Gym — DevOps CI/CD
 
-## Project Overview
+## 1. Project Overview
 
-ACEest Fitness & Gym is a Python-based fitness management application. This repository preserves the original application versions and adds automated testing and CI/CD configuration.
+ACEest Fitness & Gym is a Python-based fitness management application. This repository preserves the original application versions and adds automated testing and Continuous Integration/Continuous Delivery (CI/CD) configuration.
 
-The original application versions use Tkinter for the desktop interface. The CI pipeline runs automated tests without launching the graphical interface.
+The original application versions use Tkinter for the desktop interface. To support automated testing in a headless environment, independently testable fitness utility functions and Pytest tests have been added. The CI pipelines execute these tests without launching the graphical interface.
 
-## Repository Contents
+## 2. Repository Contents
 
 - `Aceestver-*.py` and related files: original application versions.
 - `fitness_utils.py`: independently testable fitness utility functions.
-- `tests/`: automated Pytest tests.
+- `tests/`: automated Pytest test suite.
 - `requirements.txt`: Python dependencies.
-- `Dockerfile`: container image used to run automated tests.
+- `Dockerfile`: container image configuration for running automated tests.
 - `Jenkinsfile`: Jenkins pipeline definition.
 - `.github/workflows/main.yml`: GitHub Actions workflow.
 
-## Prerequisites
+## 3. Prerequisites
 
 - Python 3.12
 - pip
-- Docker (for container builds)
-- Jenkins (for Jenkins pipeline execution)
+- Docker for container image builds
+- Jenkins for Jenkins pipeline execution
 
-## Run Locally
+## 4. Run Locally
 
-Install dependencies:
+Install the dependencies:
 
 ```bash
 python -m pip install -r requirements.txt
 ```
 
-Run tests:
+Run the automated tests:
 
 ```bash
 python -m pytest -v
 ```
 
-## Run with Docker
+## 5. Run with Docker
 
-Build the image:
+Build the Docker image:
 
 ```bash
 docker build -t aceest-fitness:ci .
@@ -51,22 +51,43 @@ Run the container:
 docker run --rm aceest-fitness:ci
 ```
 
-The container runs the automated test suite. It does not launch the original Tkinter desktop application.
+The container executes the automated test suite. It does not launch the original Tkinter desktop application.
 
-## CI/CD
+## 6. CI/CD Pipeline
 
 ### GitHub Actions
 
-The workflow in `.github/workflows/main.yml` runs on pushes and pull requests. It installs dependencies, executes Pytest, and builds the Docker image.
+The workflow defined in `.github/workflows/main.yml` runs on pushes and pull requests. It checks out the repository, configures Python, installs dependencies, executes Pytest, and builds the Docker image.
 
 ### Jenkins
 
-The `Jenkinsfile` defines checkout, dependency installation, testing, and Docker image build stages. Jenkins requires Python and Docker to be available to its build agent.
+The `Jenkinsfile` defines the pipeline stages for source-code checkout, dependency installation, automated testing, and Docker image building. The Jenkins build agent requires Python, pip, and Docker to be available.
 
-## Testing
+## 7. Automated Testing
 
-The initial automated tests cover BMI calculation and membership-status utilities, including invalid inputs and membership expiry boundaries.
+The automated test suite uses Pytest to validate the fitness utility functions.
 
-## Original Versions
+The tests cover:
 
-All ten supplied Python versions are retained to preserve the development history of the application.
+- Valid BMI calculation.
+- Invalid weight and height inputs.
+- Active membership status.
+- Expired membership status.
+- Membership expiry-date boundary behavior.
+
+**Test result:** All six automated tests passed in the verified Jenkins build.
+
+## 8. Pipeline Verification
+
+The CI/CD configuration was verified using both Jenkins and GitHub Actions.
+
+- Jenkins pipeline: successful build.
+- Automated testing: all six tests passed.
+- Docker: image build completed successfully in Jenkins.
+- GitHub Actions: workflow completed successfully, including the automated testing and Docker build steps.
+
+Screenshots of the successful pipeline runs and test results are maintained as project evidence.
+
+## 9. Original Application Versions
+
+All ten supplied Python application versions are retained in the repository to preserve the original application files and development history.
